@@ -9,7 +9,78 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Welcome to deepakmeasow.github.io!</h1>
-  <p>This site is under construction.</p>
+  <h1>Typing Speed Challenge</h1>
+  <div id="phrase"></div>
+  <input type="text" id="inputArea" placeholder="Start typing..." autocomplete="off" />
+  <div id="stats"></div>
+  <button onclick="startNewRound()">New Phrase</button>
+
+  <script>
+    const phrases = [
+      "Quantum cryptography ensures theoretical data privacy.",
+      "Juggling juxtaposed jargon jeopardizes journalistic judgment.",
+      "Sphinx of black quartz, judge my vow.",
+      "Exquisite paradoxes perplex even proficient philosophers.",
+      "Fluctuating gravitational anomalies fascinate theoretical physicists.",
+      "Rhythmic symphonies synchronize cerebral hemispheres harmoniously.",
+      "Bizarre bureaucratic bottlenecks baffle balanced budgets.",
+      "Zephyrs zigzagging zealously through zany zoological zones."
+    ];
+
+    let startTime, endTime;
+    let currentPhrase = "";
+
+    const phraseDiv = document.getElementById("phrase");
+    const input = document.getElementById("inputArea");
+    const stats = document.getElementById("stats");
+
+    function getRandomPhrase() {
+      return phrases[Math.floor(Math.random() * phrases.length)];
+    }
+
+    function startNewRound() {
+      currentPhrase = getRandomPhrase();
+      phraseDiv.textContent = currentPhrase;
+      input.value = "";
+      input.focus();
+      stats.innerHTML = "";
+      startTime = null;
+    }
+
+    input.addEventListener("input", () => {
+      if (!startTime) startTime = new Date();
+
+      const typed = input.value;
+      if (typed === currentPhrase) {
+        endTime = new Date();
+        const timeTaken = (endTime - startTime) / 1000;
+        const words = currentPhrase.split(" ").length;
+        const wpm = Math.round((words / timeTaken) * 60);
+        const accuracy = Math.round(
+          (typed.split("").filter((ch, i) => ch === currentPhrase[i]).length /
+          currentPhrase.length) * 100
+        );
+
+        stats.innerHTML = `
+          <p class="result">✅ Completed!</p>
+          <p class="result">🕒 Time: ${timeTaken.toFixed(2)}s</p>
+          <p class="result">⌨️ WPM: ${wpm}</p>
+          <p class="result">🎯 Accuracy: ${accuracy}%</p>
+        `;
+      } else {
+        let marked = "";
+        for (let i = 0; i < currentPhrase.length; i++) {
+          const correctChar = currentPhrase[i];
+          const typedChar = typed[i] || "";
+          marked += `<span class="${correctChar === typedChar ? "correct" : "wrong"}">${correctChar}</span>`;
+        }
+        phraseDiv.innerHTML = marked;
+      }
+    });
+
+    // Initialize
+    startNewRound();
+  </script>
+</body>
 </body>
 </html>
