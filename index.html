@@ -8,8 +8,7 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8584353138263880"
      crossorigin="anonymous"></script>
 </head>
-<body>
-  <h1>Typing Speed Challenge</h1>
+ <h1>Typing Speed Challenge</h1>
   <div id="phrase"></div>
   <input type="text" id="inputArea" placeholder="Start typing..." autocomplete="off" />
   <div id="stats"></div>
@@ -48,39 +47,53 @@
     }
 
     input.addEventListener("input", () => {
-      if (!startTime) startTime = new Date();
-
       const typed = input.value;
+
+      if (!startTime && typed.length > 0) startTime = new Date();
+
+      // Calculate live accuracy per letter typed
+      let correctChars = 0;
+      for (let i = 0; i < typed.length; i++) {
+        if (typed[i] === currentPhrase[i]) correctChars++;
+      }
+      const accuracy = typed.length === 0 ? 100 : Math.round((correctChars / typed.length) * 100);
+
+      // Color-coded phrase preview
+      let marked = "";
+      for (let i = 0; i < currentPhrase.length; i++) {
+        const correctChar = currentPhrase[i];
+        const typedChar = typed[i];
+        if (typedChar == null) {
+          marked += `<span>${correctChar}</span>`;
+        } else if (typedChar === correctChar) {
+          marked += `<span class="correct">${correctChar}</span>`;
+        } else {
+          marked += `<span class="wrong">${correctChar}</span>`;
+        }
+      }
+      phraseDiv.innerHTML = marked;
+
+      // Completion check
       if (typed === currentPhrase) {
         endTime = new Date();
         const timeTaken = (endTime - startTime) / 1000;
         const words = currentPhrase.split(" ").length;
         const wpm = Math.round((words / timeTaken) * 60);
-        const accuracy = Math.round(
-          (typed.split("").filter((ch, i) => ch === currentPhrase[i]).length /
-          currentPhrase.length) * 100
-        );
-
         stats.innerHTML = `
           <p class="result">✅ Completed!</p>
           <p class="result">🕒 Time: ${timeTaken.toFixed(2)}s</p>
           <p class="result">⌨️ WPM: ${wpm}</p>
-          <p class="result">🎯 Accuracy: ${accuracy}%</p>
+          <p class="result">🎯 Final Accuracy: ${accuracy}%</p>
         `;
       } else {
-        let marked = "";
-        for (let i = 0; i < currentPhrase.length; i++) {
-          const correctChar = currentPhrase[i];
-          const typedChar = typed[i] || "";
-          marked += `<span class="${correctChar === typedChar ? "correct" : "wrong"}">${correctChar}</span>`;
-        }
-        phraseDiv.innerHTML = marked;
+        stats.innerHTML = `
+          <p class="result">🎯 Accuracy: ${accuracy}%</p>
+        `;
       }
     });
 
     // Initialize
     startNewRound();
   </script>
-</body>
 </body>
 </html>
