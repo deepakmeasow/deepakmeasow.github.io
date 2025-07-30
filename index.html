@@ -2,104 +2,111 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>My Web App Toolkit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-adsense-account" content="ca-pub-8584353138263880">
-  <title>deepakmeasow.github.io</title>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8584353138263880"
-     crossorigin="anonymous"></script>
+  <style>
+    body {{
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f0f0f0;
+      color: #333;
+    }}
+    header {{
+      background: #1e1e1e;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }}
+    h1 {{
+      margin: 0;
+    }}
+    .container {{
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }}
+    h2 {{
+      margin-top: 40px;
+      color: #444;
+    }}
+    ul {{
+      list-style: none;
+      padding: 0;
+    }}
+    li {{
+      margin-bottom: 10px;
+    }}
+    a {{
+      text-decoration: none;
+      color: #0066cc;
+      font-weight: 500;
+      background: #fff;
+      padding: 12px 20px;
+      display: inline-block;
+      width: 100%;
+      border-radius: 8px;
+      transition: 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }}
+    a:hover {{
+      background: #0066cc;
+      color: #fff;
+    }}
+    footer {{
+      text-align: center;
+      padding: 20px;
+      background: #e0e0e0;
+      margin-top: 50px;
+    }}
+  </style>
 </head>
- <body>
-  <h1>Typing Speed Challenge</h1>
+<body>
 
-  <div class="typing-container">
-    <div id="phrase"></div>
-    <input type="text" id="inputArea" placeholder="Start typing..." autocomplete="off" />
+  <header>
+    <h1>🧰 My Web App Toolkit</h1>
+    <p>Click a tool below to launch it</p>
+  </header>
+
+  <div class="container">
+<h2>🔧 Utility Tools</h2><ul>
+<li><a href="qr-code-generator/index.html">QR Code Generator</a></li>
+<li><a href="pdf-merger-splitter/index.html">PDF Merger Splitter</a></li>
+<li><a href="unit-converter/index.html">Unit Converter</a></li>
+<li><a href="loan-emi-calculator/index.html">Loan EMI Calculator</a></li>
+<li><a href="image-compressor/index.html">Image Compressor</a></li>
+</ul>
+<h2>🔧 Student Tools</h2><ul>
+<li><a href="flashcard-learning-app/index.html">Flashcard Learning App</a></li>
+<li><a href="typing-practice-app/index.html">Typing Practice App</a></li>
+<li><a href="scientific-calculator/index.html">Scientific Calculator</a></li>
+</ul>
+<h2>🔧 Fun & Games</h2><ul>
+<li><a href="wordle-clone/index.html">Wordle Clone</a></li>
+<li><a href="2048-game/index.html">2048 Game</a></li>
+<li><a href="memory-match-game/index.html">Memory Match Game</a></li>
+<li><a href="trivia-quiz-app/index.html">Trivia Quiz App</a></li>
+</ul>
+<h2>🔧 Creative Tools</h2><ul>
+<li><a href="meme-generator/index.html">Meme Generator</a></li>
+<li><a href="ai-prompt-designer/index.html">AI Prompt Designer</a></li>
+</ul>
+<h2>🔧 Data & Resume Tools</h2><ul>
+<li><a href="resume-analyzer/index.html">Resume Analyzer</a></li>
+<li><a href="text-sentiment-analyzer/index.html">Text Sentiment Analyzer</a></li>
+</ul>
+<h2>🔧 Security & Privacy</h2><ul>
+<li><a href="password-generator/index.html">Password Generator</a></li>
+<li><a href="text-encryptor-decryptor/index.html">Text Encryptor Decryptor</a></li>
+</ul>
+<h2>🔧 Productivity Tools</h2><ul>
+<li><a href="daily-habit-tracker/index.html">Daily Habit Tracker</a></li>
+<li><a href="sticky-notes-app/index.html">Sticky Notes App</a></li>
+</ul>
+
   </div>
-
-  <div id="stats"></div>
-  <button onclick="startNewRound()">New Phrase</button>
-
-  <script>
-    const phrases = [
-      "Quantum cryptography ensures theoretical data privacy.",
-      "Juggling juxtaposed jargon jeopardizes journalistic judgment.",
-      "Sphinx of black quartz, judge my vow.",
-      "Exquisite paradoxes perplex even proficient philosophers.",
-      "Fluctuating gravitational anomalies fascinate theoretical physicists.",
-      "Rhythmic symphonies synchronize cerebral hemispheres harmoniously.",
-      "Bizarre bureaucratic bottlenecks baffle balanced budgets.",
-      "Zephyrs zigzagging zealously through zany zoological zones."
-    ];
-
-    let startTime, endTime;
-    let currentPhrase = "";
-
-    const phraseDiv = document.getElementById("phrase");
-    const input = document.getElementById("inputArea");
-    const stats = document.getElementById("stats");
-
-    function getRandomPhrase() {
-      return phrases[Math.floor(Math.random() * phrases.length)];
-    }
-
-    function startNewRound() {
-      currentPhrase = getRandomPhrase();
-      phraseDiv.textContent = currentPhrase;
-      input.value = "";
-      input.focus();
-      stats.innerHTML = "";
-      startTime = null;
-    }
-
-    input.addEventListener("input", () => {
-      const typed = input.value;
-
-      if (!startTime && typed.length > 0) startTime = new Date();
-
-      // Calculate accuracy per character typed
-      let correctChars = 0;
-      for (let i = 0; i < typed.length; i++) {
-        if (typed[i] === currentPhrase[i]) correctChars++;
-      }
-      const accuracy = typed.length === 0 ? 100 : Math.round((correctChars / typed.length) * 100);
-
-      // Highlight the phrase with color coding
-      let marked = "";
-      for (let i = 0; i < currentPhrase.length; i++) {
-        const correctChar = currentPhrase[i];
-        const typedChar = typed[i];
-        if (typedChar == null) {
-          marked += `<span>${correctChar}</span>`;
-        } else if (typedChar === correctChar) {
-          marked += `<span class="correct">${correctChar}</span>`;
-        } else {
-          marked += `<span class="wrong">${correctChar}</span>`;
-        }
-      }
-      phraseDiv.innerHTML = marked;
-
-      // Completion check
-      if (typed === currentPhrase) {
-        endTime = new Date();
-        const timeTaken = (endTime - startTime) / 1000;
-        const words = currentPhrase.split(" ").length;
-        const wpm = Math.round((words / timeTaken) * 60);
-
-        stats.innerHTML = `
-          <p class="result">✅ Completed!</p>
-          <p class="result">🕒 Time: ${timeTaken.toFixed(2)}s</p>
-          <p class="result">⌨️ WPM: ${wpm}</p>
-          <p class="result">🎯 Final Accuracy: ${accuracy}%</p>
-        `;
-      } else {
-        stats.innerHTML = `
-          <p class="result">🎯 Accuracy: ${accuracy}%</p>
-        `;
-      }
-    });
-
-    // Start first round
-    startNewRound();
-  </script>
+  <footer>
+    <p>Created by Deepak's Dev Toolkit &copy; 2025</p>
+  </footer>
 </body>
 </html>
+
